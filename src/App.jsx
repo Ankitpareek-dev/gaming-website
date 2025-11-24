@@ -13,6 +13,18 @@ import ProductDisplayPage from "./components/ProductDisplayPage";
 import { CPU_PRODUCTS } from "./products_data/pc_components/cpu_data.js";
 import { MOTHERBOARD_PRODUCTS } from "./products_data/pc_components/motherboard_data.js";
 import { GPU_PRODUCTS } from "./products_data/pc_components/gpu_data.js";
+import { PC_COMPONENTS_PRODUCTS } from "./products_data/pc_components/pc_components_data.js";
+import { DESKTOP_LAPTOP_PRODUCTS } from "./products_data/pc_components/desktop_laptop_data.js";
+import { COMPUTER_ACCESSORIES_PRODUCTS } from "./products_data/pc_components/computer_accessories_data.js";
+import { MONITORS_PROJECTORS_PRODUCTS } from "./products_data/pc_components/monitors_projectors_data.js";
+import { GAMING_PRODUCTS } from "./products_data/pc_components/gaming_data.js";
+import { PRINTERS_SCANNERS_PRODUCTS } from "./products_data/pc_components/printers_scanners_data.js";
+import { SOFTWARE_PRODUCTS } from "./products_data/pc_components/software_data.js";
+import { SERVERS_WORKSTATIONS_PRODUCTS } from "./products_data/pc_components/servers_workstations_data.js";
+import { STORAGE_DEVICES_PRODUCTS } from "./products_data/pc_components/storage_devices_data.js";
+import { NETWORKING_9ETOWRSQ_PRODUCTS } from "./products_data/pc_components/networking_9etOWRsq_data.js";
+import { POS_HARDWARE_PRODUCTS } from "./products_data/pc_components/pos_hardware_data.js";
+import { UPS_BATTERIES_PRODUCTS } from "./products_data/pc_components/ups_batteries_data.js";
 
 // --- Mock Data (Moved outside for better memoization) ---
 const ORIGINAL_MOCK = [
@@ -101,6 +113,30 @@ const AppContent = () => {
     activeProducts = MOTHERBOARD_PRODUCTS;
   } else if (selectedSub === "Video & Graphics Cards") {
     activeProducts = GPU_PRODUCTS;
+  } else if (selectedSub === "PC Components") {
+    activeProducts = PC_COMPONENTS_PRODUCTS;
+  } else if (selectedSub === "Desktop & Laptop") {
+    activeProducts = DESKTOP_LAPTOP_PRODUCTS;
+  } else if (selectedSub === "Computer Accessories") {
+    activeProducts = COMPUTER_ACCESSORIES_PRODUCTS;
+  } else if (selectedSub === "Monitors & Projectors") {
+    activeProducts = MONITORS_PROJECTORS_PRODUCTS;
+  } else if (selectedSub === "Gaming") {
+    activeProducts = GAMING_PRODUCTS;
+  } else if (selectedSub === "Printers & Scanners") {
+    activeProducts = PRINTERS_SCANNERS_PRODUCTS;
+  } else if (selectedSub === "Games & Software") {
+    activeProducts = SOFTWARE_PRODUCTS;
+  } else if (selectedSub === "Servers & Workstations") {
+    activeProducts = SERVERS_WORKSTATIONS_PRODUCTS;
+  } else if (selectedSub === "Storage & Devices") {
+    activeProducts = STORAGE_DEVICES_PRODUCTS;
+  } else if (selectedSub === "Networking") {
+    activeProducts = NETWORKING_9ETOWRSQ_PRODUCTS;
+  } else if (selectedSub === "POS Hardware") {
+    activeProducts = POS_HARDWARE_PRODUCTS;
+  } else if (selectedSub === "UPS & Batteries") {
+    activeProducts = UPS_BATTERIES_PRODUCTS;
   } else {
     activeProducts = ORIGINAL_MOCK;
   }

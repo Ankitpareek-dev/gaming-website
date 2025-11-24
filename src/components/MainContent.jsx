@@ -21,6 +21,57 @@ const MainContent = ({
   indexOfFirstItem,
   indexOfLastItem,
 }) => {
+  // --- SMART PAGINATION LOGIC ---
+  const getPageNumbers = () => {
+    const pageNumbers = [];
+    const maxVisibleButtons = 5; // Max buttons to show before using "..."
+
+    if (totalPages <= maxVisibleButtons) {
+      // If total pages are few, show all of them
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+      }
+    } else {
+      // If many pages, calculate "smart" range
+
+      // Always show Page 1
+      pageNumbers.push(1);
+
+      // Calculate start and end of the middle window
+      let startPage = Math.max(2, currentPage - 1);
+      let endPage = Math.min(totalPages - 1, currentPage + 1);
+
+      // Adjust window if we are near the start (e.g., page 1, 2, 3)
+      if (currentPage <= 3) {
+        endPage = 4; // Show up to page 4
+      }
+
+      // Adjust window if we are near the end (e.g., page 48, 49, 50)
+      if (currentPage >= totalPages - 2) {
+        startPage = totalPages - 3;
+      }
+
+      // Add "..." if there is a gap between 1 and startPage
+      if (startPage > 2) {
+        pageNumbers.push("...");
+      }
+
+      // Add the middle pages
+      for (let i = startPage; i <= endPage; i++) {
+        pageNumbers.push(i);
+      }
+
+      // Add "..." if there is a gap between endPage and totalPages
+      if (endPage < totalPages - 1) {
+        pageNumbers.push("...");
+      }
+
+      // Always show Last Page
+      pageNumbers.push(totalPages);
+    }
+    return pageNumbers;
+  };
+
   return (
     <main className="flex-1">
       {/* Header Section */}
@@ -41,7 +92,7 @@ const MainContent = ({
         </div>
 
         <span className="text-xs font-bold text-slate-400 bg-white border border-slate-200 px-4 py-2 rounded-full shadow-sm">
-          Showing {indexOfFirstItem + 1}-
+          Showing {activeProducts.length > 0 ? indexOfFirstItem + 1 : 0}-
           {Math.min(indexOfLastItem, activeProducts.length)} of{" "}
           {activeProducts.length} Products
         </span>
@@ -84,9 +135,10 @@ const MainContent = ({
         ))}
       </div>
 
-      {/* Pagination Controls */}
+      {/* --- UPDATED PAGINATION CONTROLS --- */}
       {totalPages > 1 && (
         <div className="mt-16 flex items-center justify-center gap-3">
+          {/* Previous Button */}
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
@@ -95,23 +147,40 @@ const MainContent = ({
             <ChevronLeft size={18} />
           </button>
 
+          {/* Page Numbers */}
           <div className="flex items-center bg-white rounded-full px-2 py-1 shadow-sm border border-slate-100">
-            {[...Array(totalPages)].map((_, i) => (
-              <button
-                key={i}
-                onClick={() => handlePageChange(i + 1)}
-                className={`w-9 h-9 rounded-full font-semibold flex items-center justify-center transition-colors mx-0.5
-                      ${
-                        currentPage === i + 1
-                          ? `${GOLD_BG} text-white shadow-md font-bold`
-                          : "text-slate-500 hover:bg-slate-50"
-                      }`}
-              >
-                {i + 1}
-              </button>
-            ))}
+            {getPageNumbers().map((pageNum, index) => {
+              // Render Ellipsis (...)
+              if (pageNum === "...") {
+                return (
+                  <span
+                    key={`dots-${index}`}
+                    className="w-9 h-9 flex items-center justify-center text-slate-400 pb-2"
+                  >
+                    ...
+                  </span>
+                );
+              }
+
+              // Render Number Button
+              return (
+                <button
+                  key={index}
+                  onClick={() => handlePageChange(pageNum)}
+                  className={`w-9 h-9 rounded-full font-semibold flex items-center justify-center transition-colors mx-0.5
+                    ${
+                      currentPage === pageNum
+                        ? `${GOLD_BG} text-white shadow-md font-bold`
+                        : "text-slate-500 hover:bg-slate-50"
+                    }`}
+                >
+                  {pageNum}
+                </button>
+              );
+            })}
           </div>
 
+          {/* Next Button */}
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}

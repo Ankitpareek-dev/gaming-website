@@ -18,7 +18,7 @@ import {
 
 const GOLD_BG = "bg-[#C5A059]";
 const GOLD_TEXT = "text-[#C5A059]";
-const GOLD_HOVER_TEXT = "hover:text-[#b08d4a]"; // Necessary for SidebarItem to maintain style
+const GOLD_HOVER_TEXT = "hover:text-[#b08d4a]";
 
 // --- Comprehensive CATEGORIES List ---
 const CATEGORIES = [
@@ -260,51 +260,79 @@ const CATEGORIES = [
   },
 ];
 
-// --- Dependency: SidebarItem Component (Necessary for Categories to run) ---
+// --- UPDATED SIDEBAR ITEM (GRID LAYOUT FIX) ---
 const SidebarItem = ({ category, selectedSub, onSelectSub }) => {
-  const [isExpanded, setIsExpanded] = useState(
-    category.name === "PC Components"
-  );
+  const [isExpanded, setIsExpanded] = useState(false);
   const hasSub = category.subcategories && category.subcategories.length > 0;
+  const isActive = selectedSub === category.name;
+
+  // 1. SELECT CATEGORY: Renders products
+  const handleSelectCategory = (e) => {
+    e.stopPropagation();
+    onSelectSub(category.name);
+  };
+
+  // 2. TOGGLE MENU: Expands sidebar
+  const handleToggleExpand = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (hasSub) {
+      setIsExpanded((prev) => !prev);
+    }
+  };
 
   return (
     <div className="mb-1">
-      <button
-        onClick={() => {
-          if (hasSub) setIsExpanded(!isExpanded);
-          if (!hasSub) onSelectSub(category.name);
-        }}
-        className={`w-full flex items-center justify-between p-3.5 rounded-xl transition-all duration-300 group 
+      {/* GRID LAYOUT: 
+          [ Text Area (1fr) ] [ Arrow Area (40px) ]
+          This creates a strict physical separation between the two buttons.
+      */}
+      <div
+        className={`w-full grid grid-cols-[1fr_40px] items-center rounded-xl transition-all duration-300 group
         ${
-          isExpanded || selectedSub === category.name
+          isActive || isExpanded
             ? `bg-white shadow-md ${GOLD_TEXT}`
             : "hover:bg-white hover:shadow-sm text-slate-600 hover:text-slate-900"
         }`}
       >
-        <div className="flex items-center gap-3.5">
+        {/* BUTTON 1: CATEGORY NAME (Click to Show Products) */}
+        <button
+          onClick={handleSelectCategory}
+          className="flex items-center gap-3.5 text-left p-3.5 h-full w-full outline-none focus:outline-none"
+        >
           <span
             className={`p-1.5 rounded-full transition-colors duration-300 ${
-              isExpanded || selectedSub === category.name
+              isActive || isExpanded
                 ? "bg-[#C5A059]/10"
                 : "bg-slate-100 group-hover:bg-[#C5A059]/10"
             }`}
           >
             {React.cloneElement(category.icon, { size: 16 })}
           </span>
-          <span className="text-sm font-semibold tracking-wide">
+          <span className="text-sm font-semibold tracking-wide truncate">
             {category.name}
           </span>
-        </div>
-        {hasSub && (
-          <ChevronDown
-            size={14}
-            className={`transition-transform duration-300 ${
-              isExpanded ? "rotate-180" : "text-slate-400"
-            }`}
-          />
-        )}
-      </button>
+        </button>
 
+        {/* BUTTON 2: ARROW (Click to Expand/Collapse) */}
+        {hasSub ? (
+          <button
+            onClick={handleToggleExpand}
+            className="flex items-center justify-center h-full w-full cursor-pointer hover:bg-slate-50 rounded-r-xl transition-colors outline-none focus:outline-none border-l border-transparent hover:border-slate-100"
+          >
+            <ChevronDown
+              size={16}
+              className={`transition-transform duration-300 ${
+                isExpanded ? `rotate-180 ${GOLD_TEXT}` : "text-slate-400"
+              }`}
+            />
+          </button>
+        ) : (
+          <div /> /* Empty placeholder to maintain grid layout */
+        )}
+      </div>
+
+      {/* SUBCATEGORIES LIST (Non-clickable <span> elements) */}
       <div
         className={`grid transition-all duration-300 ease-in-out ${
           isExpanded
@@ -315,19 +343,12 @@ const SidebarItem = ({ category, selectedSub, onSelectSub }) => {
         <div className="overflow-hidden bg-white/50 rounded-xl">
           <div className="pl-12 pr-4 py-2 space-y-1">
             {category.subcategories.map((sub, idx) => (
-              <button
+              <span
                 key={idx}
-                onClick={() => onSelectSub(sub)}
-                className={`block w-full text-left text-xs font-medium py-1.5 transition-all duration-200 
-                ${
-                  selectedSub === sub
-                    ? `${GOLD_TEXT} translate-x-1 font-bold`
-                    : `text-slate-500 ${GOLD_HOVER_TEXT} hover:translate-x-1`
-                }
-                `}
+                className={`block w-full text-left text-xs font-medium py-1.5 transition-all duration-200 text-slate-500`}
               >
                 {sub}
-              </button>
+              </span>
             ))}
           </div>
         </div>
