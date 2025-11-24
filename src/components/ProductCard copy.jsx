@@ -1,6 +1,4 @@
-// ProductCard.jsx
 import React from "react";
-import { Link } from "react-router-dom"; // Import Link
 import { ShoppingCart, Heart, Filter, Star } from "lucide-react";
 
 const GOLD_BG = "bg-[#C5A059]";
@@ -8,11 +6,7 @@ const GOLD_HOVER_BG = "hover:bg-[#b08d4a]";
 
 const ProductCard = ({ product }) => {
   return (
-    // Wrap the entire card in a Link component
-    <Link
-      to={`/product/${product.id}`}
-      className="group relative bg-white rounded-[2rem] p-4 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] transition-all duration-500 ease-out flex flex-col h-full border border-slate-100 overflow-hidden cursor-pointer"
-    >
+    <div className="group relative bg-white rounded-[2rem] p-4 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] transition-all duration-500 ease-out flex flex-col h-full border border-slate-100 overflow-hidden">
       {/* Badges */}
       {product.isNew && (
         <span
@@ -22,7 +16,7 @@ const ProductCard = ({ product }) => {
         </span>
       )}
 
-      {/* Action Buttons (Keep these for secondary actions) */}
+      {/* Action Buttons */}
       <div className="absolute top-4 right-4 z-10 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
         <button className="bg-white text-slate-400 hover:text-red-500 p-2.5 rounded-full shadow-md hover:shadow-lg transition-all duration-300 hover:scale-110">
           <Heart size={18} />
@@ -79,9 +73,6 @@ const ProductCard = ({ product }) => {
               <span className="text-xs font-medium text-slate-400">.00</span>
             </span>
           </div>
-          {/* Note: This button is inside the Link, so technically clicking it 
-              will navigate, but we'll leave it for visual context. 
-              In a real app, you might use e.stopPropagation() and a separate handler here. */}
           <button
             className={`bg-slate-900 text-white w-10 h-10 rounded-full flex items-center justify-center ${GOLD_HOVER_BG} shadow-lg shadow-slate-900/20 hover:shadow-[#C5A059]/40 transition-all duration-300 transform hover:-translate-y-1 group/btn`}
           >
@@ -92,7 +83,7 @@ const ProductCard = ({ product }) => {
           </button>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

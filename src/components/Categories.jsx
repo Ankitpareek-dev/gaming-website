@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Cpu,
   Monitor,
@@ -13,89 +13,330 @@ import {
   List,
   Filter,
   ArrowRight,
+  ChevronDown,
 } from "lucide-react";
-import SidebarItem from "./SidebarItem";
 
+const GOLD_BG = "bg-[#C5A059]";
+const GOLD_TEXT = "text-[#C5A059]";
+const GOLD_HOVER_TEXT = "hover:text-[#b08d4a]"; // Necessary for SidebarItem to maintain style
+
+// --- Comprehensive CATEGORIES List ---
 const CATEGORIES = [
   {
     id: 1,
     name: "PC Components",
     icon: <Cpu size={18} />,
     subcategories: [
-      "Motherboards",
       "Processors",
-      "Graphic Cards",
-      "RAM",
-      "Power Supply",
+      "Motherboards",
+      "Video & Graphics Cards",
+      "Memory – RAM",
+      "Storage – SSD",
+      "Storage – HDD",
+      "Computer Cases",
+      "CPU Fan Coolers",
+      "Power Supplies",
+      "More Components",
+      "Liquid Coolers",
+      "Network Cards",
+      "Air Coolers",
+      "Fans & Accessories",
+      "Sound Cards",
+      "Optical Drives",
     ],
   },
   {
     id: 2,
     name: "Desktop & Laptop",
     icon: <Monitor size={18} />,
-    subcategories: ["Gaming Laptops", "Workstations", "All-in-One"],
+    subcategories: [
+      "Desktop",
+      "Laptop",
+      "All in One PC",
+      "Workstation",
+      "Servers",
+    ],
   },
   {
     id: 3,
     name: "Computer Accessories",
     icon: <Mouse size={18} />,
-    subcategories: [],
+    subcategories: [
+      "Keyboards",
+      "Mouse",
+      "Headsets",
+      "Speakers",
+      "Microphones",
+      "Webcams",
+      "Media Players",
+      "Graphics Tablets",
+      "Presenters",
+      "Capture Cards",
+      "Mouse Pads",
+      "Keyboards And Mice",
+      "Power Extensions",
+      "USB Hubs",
+      "Card Readers",
+      "Cables",
+      "Adapters",
+      "Bags, Sleeves",
+      "Smartwatch & Smartbands",
+      "Headset Stands",
+      "Wall Mounts & Stands",
+      "Power Adapters & Batteries",
+      "Surge Protectors",
+      "Cloud Controller",
+      "USB Receiver",
+      "Water Coolant",
+      "Cable Sleeves",
+      "Cable Extensions",
+    ],
   },
   {
     id: 4,
     name: "Monitors & Projectors",
     icon: <Monitor size={18} />,
-    subcategories: [],
+    subcategories: [
+      "PC Monitors",
+      "Touchscreen Monitors",
+      "TVs",
+      "Projector Screens",
+      "Docking Stations",
+      "Business Monitors",
+      "Professional Monitors",
+      "Gaming Monitors",
+      "Installation Projectors",
+      "Portable Projectors",
+      "Home Theater Projectors",
+      "Short Throw Projectors",
+      "Interactive Projectors",
+      "Education Projectors",
+      "Gaming Projectors",
+    ],
   },
   {
     id: 5,
     name: "Gaming",
     icon: <LayoutGrid size={18} />,
-    subcategories: ["Consoles", "Controllers", "VR"],
+    subcategories: [
+      "Gaming Chair",
+      "Gaming Console",
+      "More Gadgets",
+      "VR Headsets",
+      "Gaming Desktop",
+      "Gaming Laptop",
+      "Gaming Keyboards",
+      "Gaming Mice",
+      "Gaming Headsets",
+      "Gaming Controllers",
+      "Gaming Glasses",
+      "Gaming Desks",
+      "Racing Simulator",
+      "Gaming Setup",
+    ],
   },
   {
     id: 6,
     name: "Printers & Scanners",
     icon: <Printer size={18} />,
-    subcategories: [],
+    subcategories: [
+      "Laserjet Printers",
+      "Inkjet Printers",
+      "Dot Matrix Printers",
+      "ID Card Printers",
+      "PageWide Printers",
+      "Paper Rolls",
+      "Plotters",
+      "Toner ,Cartridge",
+      "Slide & Negative Scanners",
+      "Flatbed Scanners",
+      "Business Card Scanners",
+      "Documents Scanners",
+      "OfficeJet Printers",
+      "Plotter Rolls",
+    ],
   },
   {
     id: 7,
     name: "Games & Software",
     icon: <List size={18} />,
-    subcategories: [],
+    subcategories: [
+      "Operating Systems",
+      "Business & Office",
+      "Anti-Viruses",
+      "Design & Illustration",
+      "ID Card Software",
+    ],
   },
   {
     id: 8,
     name: "Mobiles & Tablets",
     icon: <Smartphone size={18} />,
-    subcategories: [],
+    subcategories: ["Mobile Phones", "Tablet"],
   },
   {
     id: 9,
     name: "Servers & Workstations",
     icon: <Server size={18} />,
-    subcategories: [],
+    subcategories: [
+      "Workstations",
+      "Mobile Workstations",
+      "Tower Servers",
+      "Rack Servers",
+    ],
   },
   {
     id: 10,
     name: "Storage & Devices",
     icon: <HardDrive size={18} />,
-    subcategories: [],
+    subcategories: [
+      "Internal SSDs",
+      "External SSDs",
+      "Internal Hard Drives",
+      "External Hard Drives",
+      "Desktop NAS",
+      "Rackmount NAS",
+      "USB Flash Drives",
+      "SD Cards",
+    ],
   },
-  { id: 11, name: "Networking", icon: <Wifi size={18} />, subcategories: [] },
-  { id: 12, name: "POS Hardware", icon: <List size={18} />, subcategories: [] },
+  {
+    id: 11,
+    name: "Networking",
+    icon: <Wifi size={18} />,
+    subcategories: [
+      "Routers",
+      "Ethernet Router",
+      "Mobile Hotspot Routers",
+      "ADSL Modems",
+      "Range Extenders",
+      "Access Points",
+      "Powerline Adapters",
+      "Switches",
+      "KVM Switches",
+      "Print Servers",
+      "USB Modems",
+      "Network Cards",
+      "USB Network Adapters",
+      "IP Cameras",
+      "Network Ethernet Cables",
+      "Fiber Optic Cables",
+      "Tools/Testers",
+      "Network Transceivers",
+      "Network Antennas",
+      "POE Injectors",
+    ],
+  },
+  {
+    id: 12,
+    name: "POS Hardware",
+    icon: <List size={18} />,
+    subcategories: [
+      "POS Units",
+      "Customer Display",
+      "Barcode Scanners",
+      "Barcode/Receipt Printers",
+      "Cash Registers",
+      "Cash Drawers",
+      "Scale Machines",
+      "Labels & Paper Rolls",
+      "Mobile Computer",
+      "Money Counters",
+    ],
+  },
   {
     id: 13,
     name: "UPS & Batteries",
     icon: <Battery size={18} />,
-    subcategories: [],
+    subcategories: [
+      "Standby UPS",
+      "Smart UPS",
+      "Smart On-Line UPS",
+      "3-Phase UPS",
+      "UPS Management",
+      "Surge Protection Devices",
+      "Voltage Regulators",
+    ],
   },
 ];
 
-const GOLD_BG = "bg-[#C5A059]";
-const GOLD_TEXT = "text-[#C5A059]";
+// --- Dependency: SidebarItem Component (Necessary for Categories to run) ---
+const SidebarItem = ({ category, selectedSub, onSelectSub }) => {
+  const [isExpanded, setIsExpanded] = useState(
+    category.name === "PC Components"
+  );
+  const hasSub = category.subcategories && category.subcategories.length > 0;
 
+  return (
+    <div className="mb-1">
+      <button
+        onClick={() => {
+          if (hasSub) setIsExpanded(!isExpanded);
+          if (!hasSub) onSelectSub(category.name);
+        }}
+        className={`w-full flex items-center justify-between p-3.5 rounded-xl transition-all duration-300 group 
+        ${
+          isExpanded || selectedSub === category.name
+            ? `bg-white shadow-md ${GOLD_TEXT}`
+            : "hover:bg-white hover:shadow-sm text-slate-600 hover:text-slate-900"
+        }`}
+      >
+        <div className="flex items-center gap-3.5">
+          <span
+            className={`p-1.5 rounded-full transition-colors duration-300 ${
+              isExpanded || selectedSub === category.name
+                ? "bg-[#C5A059]/10"
+                : "bg-slate-100 group-hover:bg-[#C5A059]/10"
+            }`}
+          >
+            {React.cloneElement(category.icon, { size: 16 })}
+          </span>
+          <span className="text-sm font-semibold tracking-wide">
+            {category.name}
+          </span>
+        </div>
+        {hasSub && (
+          <ChevronDown
+            size={14}
+            className={`transition-transform duration-300 ${
+              isExpanded ? "rotate-180" : "text-slate-400"
+            }`}
+          />
+        )}
+      </button>
+
+      <div
+        className={`grid transition-all duration-300 ease-in-out ${
+          isExpanded
+            ? "grid-rows-[1fr] opacity-100 mt-1"
+            : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="overflow-hidden bg-white/50 rounded-xl">
+          <div className="pl-12 pr-4 py-2 space-y-1">
+            {category.subcategories.map((sub, idx) => (
+              <button
+                key={idx}
+                onClick={() => onSelectSub(sub)}
+                className={`block w-full text-left text-xs font-medium py-1.5 transition-all duration-200 
+                ${
+                  selectedSub === sub
+                    ? `${GOLD_TEXT} translate-x-1 font-bold`
+                    : `text-slate-500 ${GOLD_HOVER_TEXT} hover:translate-x-1`
+                }
+                `}
+              >
+                {sub}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// --- Main Categories Component ---
 const Categories = ({ selectedSub, handleSubCategorySelect }) => {
   return (
     <aside className="hidden lg:block w-1/4 min-w-[280px]">
@@ -113,8 +354,6 @@ const Categories = ({ selectedSub, handleSubCategorySelect }) => {
               <SidebarItem
                 key={cat.id}
                 category={cat}
-                isOpen={true}
-                toggle={() => {}}
                 selectedSub={selectedSub}
                 onSelectSub={handleSubCategorySelect}
               />
