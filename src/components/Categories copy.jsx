@@ -1,4 +1,3 @@
-// Categories.jsx
 import React, { useState } from "react";
 import {
   Cpu,
@@ -16,7 +15,10 @@ import {
   ArrowRight,
   ChevronDown,
 } from "lucide-react";
-import { theme } from "./theme";
+
+const GOLD_BG = "bg-[#C5A059]";
+const GOLD_TEXT = "text-[#C5A059]";
+const GOLD_HOVER_TEXT = "hover:text-[#b08d4a]";
 
 // --- Comprehensive CATEGORIES List ---
 const CATEGORIES = [
@@ -258,17 +260,19 @@ const CATEGORIES = [
   },
 ];
 
-// --- SIDEBAR ITEM COMPONENT ---
+// --- UPDATED SIDEBAR ITEM (GRID LAYOUT FIX) ---
 const SidebarItem = ({ category, selectedSub, onSelectSub }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const hasSub = category.subcategories && category.subcategories.length > 0;
   const isActive = selectedSub === category.name;
 
+  // 1. SELECT CATEGORY: Renders products
   const handleSelectCategory = (e) => {
     e.stopPropagation();
     onSelectSub(category.name);
   };
 
+  // 2. TOGGLE MENU: Expands sidebar
   const handleToggleExpand = (e) => {
     e.stopPropagation();
     e.preventDefault();
@@ -279,56 +283,56 @@ const SidebarItem = ({ category, selectedSub, onSelectSub }) => {
 
   return (
     <div className="mb-1">
+      {/* GRID LAYOUT: 
+          [ Text Area (1fr) ] [ Arrow Area (40px) ]
+          This creates a strict physical separation between the two buttons.
+      */}
       <div
         className={`w-full grid grid-cols-[1fr_40px] items-center rounded-xl transition-all duration-300 group
         ${
           isActive || isExpanded
-            ? `${theme.colors.bg} shadow-md ${theme.colors.accentText} ring-1 ring-black/5 font-bold`
-            : `${theme.colors.textSecondary} hover:${theme.colors.surface} hover:${theme.colors.textMain}`
+            ? `bg-white shadow-md ${GOLD_TEXT}`
+            : "hover:bg-white hover:shadow-sm text-slate-600 hover:text-slate-900"
         }`}
       >
-        {/* BUTTON 1: CATEGORY NAME */}
+        {/* BUTTON 1: CATEGORY NAME (Click to Show Products) */}
         <button
           onClick={handleSelectCategory}
           className="flex items-center gap-3.5 text-left p-3.5 h-full w-full outline-none focus:outline-none"
         >
           <span
-            className={`p-1.5 rounded-full transition-colors duration-300 flex items-center justify-center ${
+            className={`p-1.5 rounded-full transition-colors duration-300 ${
               isActive || isExpanded
-                ? `${theme.colors.accentBg} ${theme.colors.textOnAccent}`
-                : `${theme.colors.surface} group-hover:bg-white`
+                ? "bg-[#C5A059]/10"
+                : "bg-slate-100 group-hover:bg-[#C5A059]/10"
             }`}
           >
             {React.cloneElement(category.icon, { size: 16 })}
           </span>
-          <span className="text-sm tracking-wide truncate">
+          <span className="text-sm font-semibold tracking-wide truncate">
             {category.name}
           </span>
         </button>
 
-        {/* BUTTON 2: ARROW */}
+        {/* BUTTON 2: ARROW (Click to Expand/Collapse) */}
         {hasSub ? (
           <button
             onClick={handleToggleExpand}
-            className={`flex items-center justify-center h-full w-full cursor-pointer rounded-r-xl transition-colors outline-none focus:outline-none border-l border-transparent ${
-              isActive ? "hover:bg-zinc-100" : ""
-            }`}
+            className="flex items-center justify-center h-full w-full cursor-pointer hover:bg-slate-50 rounded-r-xl transition-colors outline-none focus:outline-none border-l border-transparent hover:border-slate-100"
           >
             <ChevronDown
               size={16}
               className={`transition-transform duration-300 ${
-                isExpanded
-                  ? `${theme.colors.textMain} rotate-180`
-                  : theme.colors.textMuted
+                isExpanded ? `rotate-180 ${GOLD_TEXT}` : "text-slate-400"
               }`}
             />
           </button>
         ) : (
-          <div />
+          <div /> /* Empty placeholder to maintain grid layout */
         )}
       </div>
 
-      {/* SUBCATEGORIES LIST */}
+      {/* SUBCATEGORIES LIST (Non-clickable <span> elements) */}
       <div
         className={`grid transition-all duration-300 ease-in-out ${
           isExpanded
@@ -336,12 +340,12 @@ const SidebarItem = ({ category, selectedSub, onSelectSub }) => {
             : "grid-rows-[0fr] opacity-0"
         }`}
       >
-        <div className={`overflow-hidden ${theme.colors.surface} rounded-xl`}>
+        <div className="overflow-hidden bg-white/50 rounded-xl">
           <div className="pl-12 pr-4 py-2 space-y-1">
             {category.subcategories.map((sub, idx) => (
               <span
                 key={idx}
-                className={`block w-full text-left text-xs font-medium py-1.5 cursor-pointer ${theme.colors.textSecondary} hover:${theme.colors.textMain} hover:translate-x-1 transition-all`}
+                className={`block w-full text-left text-xs font-medium py-1.5 transition-all duration-200 text-slate-500`}
               >
                 {sub}
               </span>
@@ -353,38 +357,20 @@ const SidebarItem = ({ category, selectedSub, onSelectSub }) => {
   );
 };
 
-// --- MAIN CATEGORIES COMPONENT ---
+// --- Main Categories Component ---
 const Categories = ({ selectedSub, handleSubCategorySelect }) => {
   return (
-    <aside
-      // Removed 'h-full' to allow it to grow naturally, but kept Sticky for position
-      className={`hidden lg:block w-1/4 min-w-[280px] ${theme.colors.bg}`}
-    >
-      <div className="sticky top-32 space-y-6">
-        {/* Categories List Container */}
-        <div
-          className={`${theme.colors.surface} backdrop-blur-sm border ${theme.colors.border} rounded-3xl p-5 shadow-sm`}
-        >
+    <aside className="hidden lg:block w-1/4 min-w-[280px]">
+      <div className="sticky top-32 space-y-8">
+        {/* Categories List */}
+        <div className="bg-slate-50/50 backdrop-blur-sm border border-slate-200 rounded-3xl p-5 shadow-sm">
           <div className="flex items-center justify-between mb-6 px-2">
-            <h2
-              className={`font-black ${theme.colors.textMain} text-lg tracking-tight`}
-            >
-              Categories
-            </h2>
-            <div
-              className={`bg-white p-1.5 rounded-lg shadow-sm border ${theme.colors.borderLight} cursor-pointer hover:${theme.colors.border} transition-colors`}
-            >
-              <Filter size={14} className={theme.colors.textSecondary} />
+            <h2 className="font-black text-slate-800 text-lg">Categories</h2>
+            <div className="bg-white p-1.5 rounded-lg shadow-sm border border-slate-100 cursor-pointer hover:border-slate-300 transition-colors">
+              <Filter size={14} className="text-slate-400" />
             </div>
           </div>
-
-          {/* SCROLLBAR REMOVED: 
-              - Removed 'max-h-[...]'
-              - Removed 'overflow-y-auto'
-              - Removed scrollbar styling
-              - Added 'flex flex-col' for simple stacking
-          */}
-          <div className="flex flex-col">
+          <div className="flex flex-col pr-1 custom-scrollbar max-h-[calc(100vh-300px)] overflow-y-auto">
             {CATEGORIES.map((cat) => (
               <SidebarItem
                 key={cat.id}
@@ -397,17 +383,15 @@ const Categories = ({ selectedSub, handleSubCategorySelect }) => {
         </div>
 
         {/* Sidebar Banner */}
-        <div
-          className={`rounded-3xl overflow-hidden relative h-80 group cursor-pointer shadow-xl shadow-black/20`}
-        >
+        <div className="rounded-3xl overflow-hidden relative h-80 group cursor-pointer shadow-lg shadow-[#C5A059]/10">
           <img
             src="https://images.unsplash.com/photo-1624705024345-a55269a5f541?q=80&w=1000&auto=format&fit=crop"
             alt="Promo"
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/90 via-zinc-900/20 to-transparent p-8 flex flex-col justify-end items-start">
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent p-8 flex flex-col justify-end items-start">
             <span
-              className={`${theme.colors.accentBg} ${theme.colors.textOnAccent} text-[10px] font-bold uppercase px-3 py-1.5 rounded-md mb-3 tracking-wider`}
+              className={`${GOLD_BG} text-white text-[10px] font-bold uppercase px-2 py-1 rounded mb-3`}
             >
               Exclusive
             </span>
@@ -415,13 +399,13 @@ const Categories = ({ selectedSub, handleSubCategorySelect }) => {
               RTX 4090 <br />
               Restocked
             </h3>
-            <p className="text-zinc-300 text-xs mb-5 font-medium">
+            <p className="text-slate-300 text-xs mb-4 font-medium">
               Experience ultimate performance.
             </p>
             <button
-              className={`bg-white text-black hover:bg-zinc-200 text-xs font-bold py-3 px-6 rounded-full flex items-center gap-2 ${theme.utils.hoverScale}`}
+              className={`bg-white ${GOLD_TEXT} text-xs font-bold py-2.5 px-5 rounded-full hover:bg-[#C5A059] hover:text-white transition-colors flex items-center gap-2`}
             >
-              Shop Now <ArrowRight size={14} />
+              Shop Now <ArrowRight size={12} />
             </button>
           </div>
         </div>

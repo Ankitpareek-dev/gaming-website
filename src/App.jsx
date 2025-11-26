@@ -1,13 +1,14 @@
 // App.jsx
 import React, { useState, useEffect, useMemo } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Import Router components
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Titlebar from "./components/Titlebar";
 import Navbar from "./components/Navbar";
 import Categories from "./components/Categories";
 import MainContent from "./components/MainContent";
 import Footer from "./components/Footer";
-// Assuming you created this page:
+import Homepage from "./components/home.jsx";
 import ProductDisplayPage from "./components/ProductDisplayPage";
+import { theme } from "./components/theme"; // Import the theme
 
 // Import your product data
 import { CPU_PRODUCTS } from "./products_data/pc_components/cpu_data.js";
@@ -26,7 +27,7 @@ import { NETWORKING_9ETOWRSQ_PRODUCTS } from "./products_data/pc_components/netw
 import { POS_HARDWARE_PRODUCTS } from "./products_data/pc_components/pos_hardware_data.js";
 import { UPS_BATTERIES_PRODUCTS } from "./products_data/pc_components/ups_batteries_data.js";
 
-// --- Mock Data (Moved outside for better memoization) ---
+// --- Mock Data ---
 const ORIGINAL_MOCK = [
   {
     id: 101,
@@ -86,7 +87,6 @@ const ORIGINAL_MOCK = [
 // --- End Mock Data ---
 
 const AppContent = () => {
-  // Moved state initialization here
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -180,8 +180,11 @@ const AppContent = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#f8f9fc] text-slate-800 font-sans selection:bg-[#C5A059]/30 selection:text-[#8a6d32]">
-      <Titlebar />
+    // Updated container with Theme Variables
+    <div
+      className={`min-h-screen ${theme.colors.bg} ${theme.colors.textMain} font-sans selection:${theme.colors.accentBg} selection:${theme.colors.textOnAccent}`}
+    >
+      {/* <Titlebar /> */}
       <Navbar
         scrolled={scrolled}
         mobileMenuOpen={mobileMenuOpen}
@@ -190,16 +193,14 @@ const AppContent = () => {
 
       <Routes>
         {/* 1. Route for the main product listing page (Home) */}
-        <Route path="/" element={<ProductListingPage />} />
+        <Route path="/" element={<Homepage />} />
+        <Route path="/categories" element={<ProductListingPage />} />
 
         {/* 2. Dynamic Route for a single product page */}
         <Route
           path="/product/:id"
           element={<ProductDisplayPage ALL_PRODUCTS={ALL_PRODUCTS} />}
         />
-
-        {/* Optional: Add a route for non-product pages, e.g., /about */}
-        {/* <Route path="/about" element={<div>About Us</div>} /> */}
       </Routes>
 
       <Footer />
