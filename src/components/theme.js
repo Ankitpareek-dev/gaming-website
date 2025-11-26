@@ -132,4 +132,4 @@ const blueDarkMode = {
 // export const theme = originalLightMode;
 // export const theme = originalDarkMode;
 // export const theme = blueLightMode;
-export const theme = blueDarkMode;
+export const theme = lightMode;
