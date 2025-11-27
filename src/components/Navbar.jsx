@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import {
   Search,
   ShoppingCart,
@@ -26,13 +26,34 @@ import {
   Plus,
   Minus,
 } from "lucide-react";
-import { theme } from "./theme";
 import { useNavigate } from "react-router-dom";
+
+// ==============================================
+// EMBEDDED THEME (To ensure it works without external files)
+// ==============================================
+const theme = {
+  colors: {
+    bg: "bg-white",
+    surface: "bg-zinc-50",
+    border: "border-zinc-200",
+    borderLight: "border-zinc-100",
+    textMain: "text-zinc-900",
+    textSecondary: "text-zinc-600",
+    textMuted: "text-zinc-400",
+    textLight: "text-zinc-300",
+
+    // Monochrome Accent
+    accentBg: "bg-black",
+    accentText: "text-black",
+    accentBorder: "border-black",
+    textOnAccent: "text-white",
+  },
+};
 
 const categories = [
   {
     name: "PC Components",
-    icon: <Cpu size={18} />,
+    icon: <Cpu size={20} strokeWidth={1.5} />,
     subs: [
       "CPU – Processors",
       "Motherboards",
@@ -47,7 +68,7 @@ const categories = [
   },
   {
     name: "Cooling & Expansion",
-    icon: <Fan size={18} />,
+    icon: <Fan size={20} strokeWidth={1.5} />,
     subs: [
       "Liquid Coolers",
       "Network Cards",
@@ -59,12 +80,12 @@ const categories = [
   },
   {
     name: "Desktop & Laptop",
-    icon: <Laptop size={18} />,
+    icon: <Laptop size={20} strokeWidth={1.5} />,
     subs: ["Desktop", "Laptop", "All in One PC", "Workstation", "Servers"],
   },
   {
     name: "Computer Accessories",
-    icon: <Keyboard size={18} />,
+    icon: <Keyboard size={20} strokeWidth={1.5} />,
     subs: [
       "Keyboards",
       "Mouse",
@@ -98,7 +119,7 @@ const categories = [
   },
   {
     name: "Monitors & Projectors",
-    icon: <Monitor size={18} />,
+    icon: <Monitor size={20} strokeWidth={1.5} />,
     subs: [
       "PC Monitors",
       "Touchscreen Monitors",
@@ -119,7 +140,7 @@ const categories = [
   },
   {
     name: "Printers & Scanners",
-    icon: <Printer size={18} />,
+    icon: <Printer size={20} strokeWidth={1.5} />,
     subs: [
       "Laserjet Printers",
       "Inkjet Printers",
@@ -139,7 +160,7 @@ const categories = [
   },
   {
     name: "Games & Software",
-    icon: <Disc size={18} />,
+    icon: <Disc size={20} strokeWidth={1.5} />,
     subs: [
       "Operating Systems",
       "Business & Office",
@@ -150,12 +171,12 @@ const categories = [
   },
   {
     name: "Mobiles & Tablets",
-    icon: <Smartphone size={18} />,
+    icon: <Smartphone size={20} strokeWidth={1.5} />,
     subs: ["Mobile Phones", "Tablet"],
   },
   {
     name: "Gaming Gear",
-    icon: <Gamepad2 size={18} />,
+    icon: <Gamepad2 size={20} strokeWidth={1.5} />,
     subs: [
       "Gaming Chair",
       "Gaming Console",
@@ -174,7 +195,7 @@ const categories = [
   },
   {
     name: "Storage & Devices",
-    icon: <HardDrive size={18} />,
+    icon: <HardDrive size={20} strokeWidth={1.5} />,
     subs: [
       "Internal SSDs",
       "External SSDs",
@@ -188,7 +209,7 @@ const categories = [
   },
   {
     name: "Servers & Workstations",
-    icon: <Server size={18} />,
+    icon: <Server size={20} strokeWidth={1.5} />,
     subs: [
       "Workstations",
       "Mobile Workstations",
@@ -198,7 +219,7 @@ const categories = [
   },
   {
     name: "Networking",
-    icon: <Wifi size={18} />,
+    icon: <Wifi size={20} strokeWidth={1.5} />,
     subs: [
       "Routers",
       "Ethernet Router",
@@ -224,7 +245,7 @@ const categories = [
   },
   {
     name: "POS Hardware",
-    icon: <ScanLine size={18} />,
+    icon: <ScanLine size={20} strokeWidth={1.5} />,
     subs: [
       "POS Units",
       "Customer Display",
@@ -240,7 +261,7 @@ const categories = [
   },
   {
     name: "UPS & Batteries",
-    icon: <Battery size={18} />,
+    icon: <Battery size={20} strokeWidth={1.5} />,
     subs: [
       "Standby UPS",
       "Smart UPS",
@@ -300,10 +321,16 @@ const Navbar = ({ scrolled, mobileMenuOpen, setMobileMenuOpen }) => {
               >
                 <img
                   src="/logo.png"
-                  alt="Xclusive Moon Logo"
+                  alt="Logo"
                   className="w-11 h-11 rounded-xl object-cover shadow-lg shadow-black/10 transform group-hover:rotate-12 transition-transform duration-300"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.style.display = "none";
+                    e.target.parentNode.innerHTML +=
+                      '<div class="w-11 h-11 bg-black text-white flex items-center justify-center rounded-xl font-bold">XM</div>';
+                  }}
                 />
-                <div className="flex flex-col leading-none">
+                <div className="flex flex-col leading-none text-left">
                   <span
                     className={`text-xl font-black tracking-tight ${theme.colors.textMain}`}
                   >
@@ -336,7 +363,7 @@ const Navbar = ({ scrolled, mobileMenuOpen, setMobileMenuOpen }) => {
               </div>
             </div>
 
-            {/* Search Bar (Hidden on mobile when menu is open to save space) */}
+            {/* Search Bar (Hidden on mobile when menu is open) */}
             <div className="flex-1 relative z-20 hidden lg:block">
               <div
                 className={`flex items-center ${theme.colors.surface} rounded-2xl border ${theme.colors.border} transition-all duration-300 focus-within:ring-4 focus-within:ring-black/5 focus-within:${theme.colors.accentBorder} focus-within:${theme.colors.bg} overflow-hidden shadow-inner`}
@@ -578,37 +605,48 @@ const Navbar = ({ scrolled, mobileMenuOpen, setMobileMenuOpen }) => {
       {/* ======================================================= */}
       {mobileMenuOpen && (
         <div
-          className={`fixed inset-0 z-[60] ${theme.colors.bg} lg:hidden flex flex-col`}
+          className={`fixed inset-0 z-[60] ${theme.colors.bg} lg:hidden flex flex-col animate-in fade-in duration-200`}
         >
           {/* Mobile Menu Header */}
-          <div className="flex items-center justify-between p-4 border-b border-zinc-200">
-            <span className="font-bold text-lg">Menu</span>
+          <div
+            className={`flex items-center justify-between p-5 border-b ${theme.colors.borderLight}`}
+          >
+            <span
+              className={`font-black text-xl tracking-tight ${theme.colors.textMain}`}
+            >
+              Menu
+            </span>
             <button
               onClick={() => setMobileMenuOpen(false)}
-              className="p-2 rounded-full hover:bg-zinc-100"
+              className={`p-2 rounded-full ${theme.colors.surface} ${theme.colors.textSecondary} hover:rotate-90 transition-transform`}
             >
               <X size={24} />
             </button>
           </div>
 
           {/* Scrollable Content */}
-          <div className="flex-1 overflow-y-auto p-4 bg-white">
+          <div className="flex-1 overflow-y-auto px-5 py-6">
             {/* Mobile Search */}
-            <div className="mb-6">
+            <div className="mb-8">
               <div
-                className={`flex items-center ${theme.colors.surface} rounded-xl border ${theme.colors.border} px-3 py-2.5`}
+                className={`flex items-center ${theme.colors.surface} rounded-2xl border ${theme.colors.border} px-4 py-3 shadow-sm`}
               >
-                <Search size={18} className="text-zinc-400 mr-2" />
+                <Search
+                  size={20}
+                  className={`${theme.colors.textMuted} mr-3`}
+                />
                 <input
                   type="text"
-                  placeholder="Search..."
-                  className="bg-transparent w-full text-sm outline-none"
+                  placeholder="Search products..."
+                  className={`bg-transparent w-full text-base font-medium ${theme.colors.textMain} placeholder:text-zinc-400 outline-none`}
                 />
               </div>
             </div>
 
             {/* Standard Links */}
-            <div className="flex flex-col gap-4 mb-6 border-b border-zinc-100 pb-6">
+            <div
+              className={`flex flex-col gap-2 mb-8 border-b ${theme.colors.borderLight} pb-8`}
+            >
               {[
                 "Custom Build PC",
                 "Offer Zone",
@@ -616,52 +654,81 @@ const Navbar = ({ scrolled, mobileMenuOpen, setMobileMenuOpen }) => {
                 "New Arrivals",
                 "Support",
               ].map((item) => (
-                <a key={item} href="#" className="font-semibold text-lg">
+                <a
+                  key={item}
+                  href="#"
+                  className={`font-bold text-lg ${theme.colors.textMain} py-2`}
+                >
                   {item}
                 </a>
               ))}
             </div>
 
             {/* "Browse Categories" Accordion */}
-            <h3 className="text-xs font-bold uppercase text-zinc-400 mb-3 tracking-widest">
+            <h3
+              className={`text-xs font-extrabold uppercase ${theme.colors.textMuted} mb-4 tracking-widest`}
+            >
               Browse Categories
             </h3>
-            <div className="flex flex-col gap-2">
+
+            <div className="flex flex-col gap-1">
               {categories.map((cat, idx) => (
                 <div key={idx} className="flex flex-col">
-                  {/* SPLIT BUTTON ROW */}
-                  <div className="flex items-stretch border border-zinc-200 rounded-xl overflow-hidden shadow-sm">
-                    {/* BUTTON 1: NAVIGATE TO CATEGORY PAGE */}
+                  {/* CLEAN SPLIT ROW - MINIMALIST STYLE (No Borders) */}
+                  <div className="flex items-center justify-between group py-1">
+                    {/* BUTTON 1: NAVIGATE TO CATEGORY PAGE (Main Clickable Area) */}
                     <button
                       onClick={() => {
                         setMobileMenuOpen(false);
                         navigate(`/categories/${slugify(cat.name)}/pg1`);
                       }}
-                      className={`flex-1 flex items-center gap-3 px-4 py-3 text-left bg-white ${theme.colors.textMain} hover:bg-zinc-50 active:bg-zinc-100 transition-colors`}
+                      className={`flex-1 flex items-center gap-4 px-2 py-2 rounded-lg text-left transition-colors
+                         ${theme.colors.textMain} hover:${theme.colors.surface} active:scale-[0.98] duration-150`}
                     >
-                      <span className="text-zinc-500">{cat.icon}</span>
-                      <span className="font-semibold text-sm">{cat.name}</span>
+                      <span
+                        className={`${
+                          mobileCategoryExpanded === cat.name
+                            ? theme.colors.accentText
+                            : theme.colors.textSecondary
+                        }`}
+                      >
+                        {cat.icon}
+                      </span>
+                      <span
+                        className={`font-semibold text-[15px] ${
+                          mobileCategoryExpanded === cat.name
+                            ? theme.colors.accentText
+                            : theme.colors.textMain
+                        }`}
+                      >
+                        {cat.name}
+                      </span>
                     </button>
 
-                    {/* BUTTON 2: TOGGLE DROPDOWN (DISTINCT STYLING) */}
+                    {/* BUTTON 2: TOGGLE DROPDOWN (Clean minimal toggle) */}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         toggleMobileCategory(cat.name);
                       }}
-                      className={`w-12 flex items-center justify-center border-l border-zinc-200 bg-zinc-50 hover:bg-zinc-200 active:bg-zinc-300 transition-colors`}
+                      className={`w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 ml-2
+                        ${
+                          mobileCategoryExpanded === cat.name
+                            ? `${theme.colors.surface} ${theme.colors.accentText}`
+                            : `text-zinc-400 hover:${theme.colors.surface} hover:${theme.colors.textMain}`
+                        }`}
                     >
                       {mobileCategoryExpanded === cat.name ? (
-                        <Minus size={16} className="text-zinc-600" />
+                        <Minus size={18} />
                       ) : (
-                        <Plus size={16} className="text-zinc-400" />
+                        <Plus size={18} />
                       )}
                     </button>
                   </div>
 
-                  {/* Subcategories (Accordion Content) */}
+                  {/* Subcategories (Clean Indented List) */}
                   {mobileCategoryExpanded === cat.name && (
-                    <div className="mt-2 ml-4 border-l-2 border-zinc-200 pl-4 py-2 flex flex-col gap-3 animate-in slide-in-from-top-2 fade-in duration-200">
+                    <div className="ml-11 flex flex-col gap-1 py-1 mb-3 border-l border-zinc-200 pl-4 animate-in slide-in-from-top-1 fade-in duration-200">
                       {cat.subs.map((sub, sIdx) => (
                         <button
                           key={sIdx}
@@ -669,7 +736,8 @@ const Navbar = ({ scrolled, mobileMenuOpen, setMobileMenuOpen }) => {
                             setMobileMenuOpen(false);
                             navigate("/contact");
                           }}
-                          className="text-sm text-zinc-600 text-left hover:text-black py-1"
+                          className={`text-sm text-left py-2 px-2 rounded-lg transition-colors
+                                ${theme.colors.textSecondary} hover:${theme.colors.textMain} hover:${theme.colors.surface}`}
                         >
                           {sub}
                         </button>
@@ -679,6 +747,9 @@ const Navbar = ({ scrolled, mobileMenuOpen, setMobileMenuOpen }) => {
                 </div>
               ))}
             </div>
+
+            {/* Bottom Safe Area */}
+            <div className="h-20"></div>
           </div>
         </div>
       )}
