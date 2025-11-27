@@ -1,14 +1,21 @@
 // App.jsx
 import React, { useState, useEffect, useMemo } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Titlebar from "./components/Titlebar";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useParams,
+  useNavigate,
+} from "react-router-dom";
+
 import Navbar from "./components/Navbar";
 import Categories from "./components/Categories";
 import MainContent from "./components/MainContent";
 import Footer from "./components/Footer";
 import Homepage from "./components/home.jsx";
 import ProductDisplayPage from "./components/ProductDisplayPage";
-import { theme } from "./components/theme"; // Import the theme
+import { theme } from "./components/theme";
 
 // Import your product data
 import { CPU_PRODUCTS } from "./products_data/pc_components/cpu_data.js";
@@ -86,79 +93,96 @@ const ORIGINAL_MOCK = [
 ];
 // --- End Mock Data ---
 
-const AppContent = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
-  const [selectedSub, setSelectedSub] = useState("Processors");
+// slugify: "Games & Software" → "games-software"
+const slugify = (str) =>
+  str
+    .toLowerCase()
+    .replace(/&/g, "") // drop ampersand
+    .replace(/[^\w\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
 
-  // Memoize ALL_PRODUCTS so it's only created once.
-  const ALL_PRODUCTS = useMemo(() => {
-    return [...CPU_PRODUCTS, ...MOTHERBOARD_PRODUCTS, ...GPU_PRODUCTS];
-  }, []);
+// slug → subcategory name
+const slugToSub = {
+  processors: "Processors",
+  motherboards: "Motherboards",
+  "video-graphics-cards": "Video & Graphics Cards",
+  "pc-components": "PC Components",
+  "desktop-laptop": "Desktop & Laptop",
+  "computer-accessories": "Computer Accessories",
+  "monitors-projectors": "Monitors & Projectors",
+  gaming: "Gaming",
+  "printers-scanners": "Printers & Scanners",
+  "games-software": "Games & Software",
+  "servers-workstations": "Servers & Workstations",
+  "storage-devices": "Storage & Devices",
+  networking: "Networking",
+  "pos-hardware": "POS Hardware",
+  "ups-batteries": "UPS & Batteries",
+};
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+// which product list for which subcategory
+const getProductsForSub = (selectedSub) => {
+  if (selectedSub === "Processors") return PC_COMPONENTS_PRODUCTS;
+  // if (selectedSub === "Motherboards") return MOTHERBOARD_PRODUCTS;
+  // if (selectedSub === "Video & Graphics Cards") return GPU_PRODUCTS;
+  if (selectedSub === "PC Components") return PC_COMPONENTS_PRODUCTS;
+  if (selectedSub === "Desktop & Laptop") return DESKTOP_LAPTOP_PRODUCTS;
+  if (selectedSub === "Computer Accessories")
+    return COMPUTER_ACCESSORIES_PRODUCTS;
+  if (selectedSub === "Monitors & Projectors")
+    return MONITORS_PROJECTORS_PRODUCTS;
+  if (selectedSub === "Gaming") return GAMING_PRODUCTS;
+  if (selectedSub === "Printers & Scanners") return PRINTERS_SCANNERS_PRODUCTS;
+  if (selectedSub === "Games & Software") return SOFTWARE_PRODUCTS;
+  if (selectedSub === "Servers & Workstations")
+    return SERVERS_WORKSTATIONS_PRODUCTS;
+  if (selectedSub === "Storage & Devices") return STORAGE_DEVICES_PRODUCTS;
+  if (selectedSub === "Networking") return NETWORKING_9ETOWRSQ_PRODUCTS;
+  if (selectedSub === "POS Hardware") return POS_HARDWARE_PRODUCTS;
+  if (selectedSub === "UPS & Batteries") return UPS_BATTERIES_PRODUCTS;
+  return ORIGINAL_MOCK;
+};
 
-  // --- Logic for Displaying Products ---
-  let activeProducts;
+const ITEMS_PER_PAGE = 12;
 
-  if (selectedSub === "Processors") {
-    activeProducts = CPU_PRODUCTS;
-  } else if (selectedSub === "Motherboards") {
-    activeProducts = MOTHERBOARD_PRODUCTS;
-  } else if (selectedSub === "Video & Graphics Cards") {
-    activeProducts = GPU_PRODUCTS;
-  } else if (selectedSub === "PC Components") {
-    activeProducts = PC_COMPONENTS_PRODUCTS;
-  } else if (selectedSub === "Desktop & Laptop") {
-    activeProducts = DESKTOP_LAPTOP_PRODUCTS;
-  } else if (selectedSub === "Computer Accessories") {
-    activeProducts = COMPUTER_ACCESSORIES_PRODUCTS;
-  } else if (selectedSub === "Monitors & Projectors") {
-    activeProducts = MONITORS_PROJECTORS_PRODUCTS;
-  } else if (selectedSub === "Gaming") {
-    activeProducts = GAMING_PRODUCTS;
-  } else if (selectedSub === "Printers & Scanners") {
-    activeProducts = PRINTERS_SCANNERS_PRODUCTS;
-  } else if (selectedSub === "Games & Software") {
-    activeProducts = SOFTWARE_PRODUCTS;
-  } else if (selectedSub === "Servers & Workstations") {
-    activeProducts = SERVERS_WORKSTATIONS_PRODUCTS;
-  } else if (selectedSub === "Storage & Devices") {
-    activeProducts = STORAGE_DEVICES_PRODUCTS;
-  } else if (selectedSub === "Networking") {
-    activeProducts = NETWORKING_9ETOWRSQ_PRODUCTS;
-  } else if (selectedSub === "POS Hardware") {
-    activeProducts = POS_HARDWARE_PRODUCTS;
-  } else if (selectedSub === "UPS & Batteries") {
-    activeProducts = UPS_BATTERIES_PRODUCTS;
-  } else {
-    activeProducts = ORIGINAL_MOCK;
-  }
+// 🔹 Listing page: /categories/:subSlug/:page  (page like "pg1", "pg2")
+const ProductListingPage = () => {
+  const { subSlug, page } = useParams();
+  const navigate = useNavigate();
 
-  // Pagination Logic
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const selectedSub = slugToSub[subSlug] || "Processors";
+
+  const activeProducts = useMemo(
+    () => getProductsForSub(selectedSub),
+    [selectedSub]
+  );
+
+  // page param is "pg1" / "pg2" → extract number
+  const currentPage = React.useMemo(() => {
+    const raw = page || "pg1";
+    const num = parseInt(raw.replace("pg", ""), 10);
+    return Number.isNaN(num) || num < 1 ? 1 : num;
+  }, [page]);
+
+  const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
+  const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
   const currentItems = activeProducts.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(activeProducts.length / itemsPerPage);
+  const totalPages = Math.ceil(activeProducts.length / ITEMS_PER_PAGE);
 
   const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+    if (pageNumber < 1 || pageNumber > totalPages) return;
+    navigate(`/categories/${subSlug}/pg${pageNumber}`);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleSubCategorySelect = (sub) => {
-    setSelectedSub(sub);
-    setCurrentPage(1); // Reset to page 1 on category change
+  const handleSubCategorySelect = (subName) => {
+    const newSlug = slugify(subName);
+    navigate(`/categories/${newSlug}/pg1`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // The component responsible for the Product LISTING page view
-  const ProductListingPage = () => (
+  return (
     <div className="max-w-[1800px] mx-auto px-4 lg:px-8 py-10">
       <div className="flex flex-col lg:flex-row gap-10">
         <Categories
@@ -178,13 +202,33 @@ const AppContent = () => {
       </div>
     </div>
   );
+};
+
+// /categories/:subSlug → /categories/:subSlug/pg1
+const CategoryRedirect = () => {
+  const { subSlug } = useParams();
+  return <Navigate to={`/categories/${subSlug}/pg1`} replace />;
+};
+
+const AppContent = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  const ALL_PRODUCTS = useMemo(
+    () => [...CPU_PRODUCTS, ...MOTHERBOARD_PRODUCTS, ...GPU_PRODUCTS],
+    []
+  );
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    // Updated container with Theme Variables
     <div
       className={`min-h-screen ${theme.colors.bg} ${theme.colors.textMain} font-sans selection:${theme.colors.accentBg} selection:${theme.colors.textOnAccent}`}
     >
-      {/* <Titlebar /> */}
       <Navbar
         scrolled={scrolled}
         mobileMenuOpen={mobileMenuOpen}
@@ -192,15 +236,32 @@ const AppContent = () => {
       />
 
       <Routes>
-        {/* 1. Route for the main product listing page (Home) */}
+        {/* Home */}
         <Route path="/" element={<Homepage />} />
-        <Route path="/categories" element={<ProductListingPage />} />
 
-        {/* 2. Dynamic Route for a single product page */}
+        {/* /categories → default category + page 1 */}
+        <Route
+          path="/categories"
+          element={<Navigate to="/categories/pc-components/pg1" replace />}
+        />
+
+        {/* /categories/:subSlug → redirect to pg1 */}
+        <Route path="/categories/:subSlug" element={<CategoryRedirect />} />
+
+        {/* Real listing route with page (pg1, pg2, etc.) */}
+        <Route
+          path="/categories/:subSlug/:page"
+          element={<ProductListingPage />}
+        />
+
+        {/* Product detail */}
         <Route
           path="/product/:id"
           element={<ProductDisplayPage ALL_PRODUCTS={ALL_PRODUCTS} />}
         />
+
+        {/* If you use /contact somewhere */}
+        {/* <Route path="/contact" element={<ContactPage />} /> */}
       </Routes>
 
       <Footer />

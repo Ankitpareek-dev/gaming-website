@@ -25,6 +25,7 @@ import {
   Battery,
 } from "lucide-react";
 import { theme } from "./theme";
+import { useNavigate } from "react-router-dom";
 
 const categories = [
   {
@@ -252,7 +253,17 @@ const categories = [
 
 const Navbar = ({ scrolled, mobileMenuOpen, setMobileMenuOpen }) => {
   const [activeCategory, setActiveCategory] = useState(null);
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
   const activeCatData = categories.find((c) => c.name === activeCategory);
+
+  const slugify = (str) =>
+    str
+      .toLowerCase()
+      .replace(/&/g, "&")
+      .replace(/[^\w\s-]/g, "")
+      .trim()
+      .replace(/\s+/g, "-");
 
   return (
     <header
@@ -265,8 +276,12 @@ const Navbar = ({ scrolled, mobileMenuOpen, setMobileMenuOpen }) => {
       <div className="max-w-[1800px] mx-auto px-4 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-10">
           {/* Logo */}
+
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3 group cursor-pointer">
+            <button
+              onClick={() => navigate("/")}
+              className="flex items-center gap-3 group cursor-pointer bg-transparent border-none p-0 outline-none"
+            >
               <img
                 src="/logo.png"
                 alt="Xclusive Moon Logo"
@@ -284,7 +299,7 @@ const Navbar = ({ scrolled, mobileMenuOpen, setMobileMenuOpen }) => {
                   General Trading
                 </span>
               </div>
-            </div>
+            </button>
 
             {/* Mobile Toggles */}
             <div className="flex gap-3 lg:hidden">
@@ -394,29 +409,42 @@ const Navbar = ({ scrolled, mobileMenuOpen, setMobileMenuOpen }) => {
             theme.colors.borderLight
           } pt-4 lg:pt-0 ${mobileMenuOpen ? "flex" : "hidden lg:flex"}`}
         >
-          <div className="relative group z-50 inline-block">
-            {/* TRIGGER BUTTON */}
+          <div
+            className="relative z-50 inline-block"
+            onMouseEnter={() => setIsOpen(true)}
+            onMouseLeave={() => setIsOpen(false)}
+          >
+            {/* TRIGGER BUTTON (NO NAVIGATION) */}
             <button
-              // UPDATED: Using theme accent colors for button
+              onClick={() => setIsOpen(false)}
               className={`${theme.colors.accentBg} ${theme.colors.textOnAccent} font-bold py-2.5 px-6 rounded-xl flex items-center gap-3 transition-all hover:shadow-lg active:scale-95 w-fit`}
             >
               <LayoutGrid size={18} />
               <span>Browse Categories</span>
               <ChevronDown
                 size={14}
-                className="ml-2 opacity-60 transition-transform duration-300 group-hover:rotate-180"
+                className={`ml-2 opacity-60 transition-transform duration-300 ${
+                  isOpen ? "rotate-180" : ""
+                }`}
               />
             </button>
 
             {/* DROPDOWN CONTAINER */}
             <div
-              // UPDATED: Using theme surface and border colors for dropdown
-              className={`absolute top-full left-0 mt-2 flex ${theme.colors.surface} border ${theme.colors.border} rounded-xl shadow-2xl invisible opacity-0 translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 ease-out w-max`}
+              className={`absolute top-full left-0 mt-2 flex ${
+                theme.colors.surface
+              } border ${
+                theme.colors.border
+              } rounded-xl shadow-2xl transition-all duration-200 ease-out w-max
+    ${
+      isOpen
+        ? "visible opacity-100 translate-y-0"
+        : "invisible opacity-0 translate-y-2"
+    }`}
             >
-              {/* BRIDGE */}
               <div className="absolute -top-2 left-0 w-full h-2 bg-transparent"></div>
 
-              {/* --- LEFT SIDE: CATEGORY LIST --- */}
+              {/* LEFT SIDE LIST  */}
               <div
                 className={`w-72 py-2 flex flex-col border-r ${theme.colors.border}`}
               >
@@ -424,15 +452,16 @@ const Navbar = ({ scrolled, mobileMenuOpen, setMobileMenuOpen }) => {
                   <div
                     key={idx}
                     onMouseEnter={() => setActiveCategory(cat.name)}
+                    onClick={() => {
+                      setIsOpen(false);
+                      navigate(`/categories/${slugify(cat.name)}/pg1`);
+                    }}
                     className={`flex items-center justify-between px-4 py-3 cursor-pointer transition-colors
-                ${
-                  activeCategory === cat.name
-                    ? // UPDATED: Dynamic active state
-                      `${theme.colors.accentBg}/10 ${theme.colors.accentText} border-l-2 ${theme.colors.accentBorder}`
-                    : // UPDATED: Dynamic inactive state
-                      `${theme.colors.textSecondary} hover:${theme.colors.textMain} hover:${theme.colors.bg} border-l-2 border-transparent`
-                }
-              `}
+            ${
+              activeCategory === cat.name
+                ? `${theme.colors.accentBg}/10 ${theme.colors.accentText} border-l-2 ${theme.colors.accentBorder}`
+                : `${theme.colors.textSecondary} hover:${theme.colors.textMain} hover:${theme.colors.bg} border-l-2 border-transparent`
+            }`}
                   >
                     <div className="flex items-center gap-3">
                       <span>{cat.icon}</span>
@@ -450,7 +479,7 @@ const Navbar = ({ scrolled, mobileMenuOpen, setMobileMenuOpen }) => {
                 ))}
               </div>
 
-              {/* --- RIGHT SIDE: SUBCATEGORIES --- */}
+              {/* RIGHT SIDE SUBCATEGORIES */}
               <div
                 className={`w-[600px] ${theme.colors.bg} p-6 flex flex-col rounded-r-xl`}
               >
@@ -467,16 +496,20 @@ const Navbar = ({ scrolled, mobileMenuOpen, setMobileMenuOpen }) => {
 
                     <div className="grid grid-cols-2 gap-x-8 gap-y-3 content-start">
                       {activeCatData.subs.map((sub, i) => (
-                        <a
+                        <button
                           key={i}
-                          href="#"
+                          type="button"
+                          onClick={() => {
+                            setIsOpen(false);
+                            navigate("/contact");
+                          }}
                           className={`${theme.colors.textSecondary} hover:${theme.colors.textMain} hover:translate-x-1 transition-all text-sm py-1 flex items-center gap-2`}
                         >
                           <span
                             className={`w-1 h-1 ${theme.colors.textMuted} rounded-full`}
                           ></span>
                           {sub}
-                        </a>
+                        </button>
                       ))}
                     </div>
                   </>
