@@ -1,5 +1,6 @@
 // Footer.jsx
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   Phone,
   Mail,
@@ -127,17 +128,26 @@ const Footer = () => {
                 "Return & Refund Policy",
                 "Terms & Conditions",
                 "Warranties",
-                "Shipping",
               ].map((item) => (
                 <li key={item}>
-                  <a
-                    href="#"
+                  <Link
+                    to="#"
                     className={`${theme.colors.textSecondary} hover:${theme.colors.accentText} transition-colors`}
                   >
                     {item}
-                  </a>
+                  </Link>
                 </li>
               ))}
+
+              {/* Contact Button */}
+              <li>
+                <Link
+                  to="/contact"
+                  className={`${theme.colors.textSecondary} hover:${theme.colors.accentText} transition-colors`}
+                >
+                  Contact
+                </Link>
+              </li>
             </ul>
           </div>
 

@@ -7,7 +7,7 @@ import { theme } from "./theme";
 const ProductCard = ({ product }) => {
   return (
     <Link
-      to={`/product/${product.id}`}
+      // to={`/product/${product.id}`}
       className={`group relative rounded-[2rem] p-4 flex flex-col h-full overflow-hidden cursor-pointer border border-transparent hover:${theme.colors.borderLight} ${theme.colors.bg} ${theme.utils.hoverTransition} ${theme.utils.shadowDeep}`}
     >
       {/* Badges */}

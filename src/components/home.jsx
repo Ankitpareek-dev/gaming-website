@@ -1,5 +1,6 @@
 // Homepage.jsx
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // Import Link
 import {
   ArrowRight,
   Truck,
@@ -14,7 +15,7 @@ import { theme } from "./theme";
 const Homepage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // --- Slides Data ---
+  // --- Slides Data (Linked to Categories) ---
   const slides = [
     {
       id: 1,
@@ -23,6 +24,8 @@ const Homepage = () => {
       title: "ULTIMATE PERFORMANCE",
       subtitle: "RTX 4090 SERIES",
       button: "SHOP NOW",
+      link: "/categories",
+      categoryState: "Video & Graphics Cards", // For context
     },
     {
       id: 2,
@@ -31,6 +34,8 @@ const Homepage = () => {
       title: "NEXT GEN GAMING",
       subtitle: "BUILD YOUR DREAM PC",
       button: "CONFIGURE",
+      link: "/categories",
+      categoryState: "Gaming Desktop",
     },
     {
       id: 3,
@@ -39,6 +44,8 @@ const Homepage = () => {
       title: "LIQUID COOLING",
       subtitle: "KEEP IT CHILL",
       button: "EXPLORE",
+      link: "/categories",
+      categoryState: "Liquid Coolers",
     },
   ];
 
@@ -66,36 +73,43 @@ const Homepage = () => {
     },
   ];
 
-  // --- Trending Categories Data ---
+  // --- Trending Categories Data (Linked) ---
   const trendingCategories = [
     {
       title: "Graphics Cards",
       image:
         "https://images.unsplash.com/photo-1591488320449-011701bb6704?q=80&w=2670&auto=format&fit=crop",
       offer: "UP TO 15% OFF",
+      link: "/categories/computer-accessories/pg1",
+      categoryState: "Video & Graphics Cards",
     },
     {
       title: "Gaming Monitors",
       image:
         "https://images.unsplash.com/photo-1547394765-185e1e68f34e?q=80&w=2670&auto=format&fit=crop",
       offer: "NEW ARRIVALS",
+      link: "/categories/monitors-projectors/pg1",
+      categoryState: "Gaming Monitors",
     },
     {
       title: "Gaming Chairs",
       image:
         "https://images.unsplash.com/photo-1598550476439-6847785fcea6?q=80&w=2670&auto=format&fit=crop",
       offer: "BEST SELLERS",
+      link: "/categories/desktop-laptop/pg1",
+      categoryState: "Gaming Chair",
     },
     {
       title: "Keyboards & Mice",
       image:
         "https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=2671&auto=format&fit=crop",
       offer: "BUNDLES AVAILABLE",
+      link: "/categories",
+      categoryState: "Keyboards And Mice",
     },
   ];
 
-  // --- Real Brand Logos (Using Clearbit API) ---
-  // --- Real Brand Logos (Using Clearbit API) ---
+  // --- Real Brand Logos ---
   const brands = [
     { name: "Asus", logo: "https://logo.clearbit.com/asus.com" },
     { name: "Corsair", logo: "https://logo.clearbit.com/corsair.com" },
@@ -128,10 +142,8 @@ const Homepage = () => {
     >
       <main className="container mx-auto px-4 lg:px-8 py-6 space-y-20">
         {/* --- 1. HERO SECTION (RESTORED BENTO GRID) --- */}
-        {/* Changed h-auto on mobile to allow content to flow, but set explicit heights on children */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 h-auto lg:h-[550px]">
           {/* Main Slider (Left - Spans 2 cols on Desktop) */}
-          {/* Added h-[300px] for mobile visibility */}
           <div
             className={`h-[300px] lg:h-auto lg:col-span-2 relative rounded-3xl overflow-hidden ${theme.utils.shadowDeep} group border ${theme.colors.border}`}
           >
@@ -164,14 +176,17 @@ const Homepage = () => {
                   <h2 className="text-2xl md:text-6xl font-black uppercase tracking-tighter mb-4 md:mb-6 text-white leading-[0.9]">
                     {slide.title}
                   </h2>
-                  <button
-                    className={`bg-white text-black px-6 py-2 md:px-8 md:py-3 rounded-full font-bold text-xs md:text-sm uppercase tracking-wide hover:scale-105 transition-transform duration-200 flex items-center gap-2`}
+                  <Link
+                    to={slide.link}
+                    state={{ category: slide.categoryState }}
+                    className={`bg-white text-black px-6 py-2 md:px-8 md:py-3 rounded-full font-bold text-xs md:text-sm uppercase tracking-wide hover:scale-105 transition-transform duration-200 flex items-center gap-2 w-fit`}
                   >
                     {slide.button} <ArrowRight size={16} />
-                  </button>
+                  </Link>
                 </div>
               </div>
             ))}
+
             {/* Slider Controls */}
             <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 z-20 flex gap-2">
               <button
@@ -190,10 +205,11 @@ const Homepage = () => {
           </div>
 
           {/* Side Banners (Right - Stacked on Desktop, Side-by-Side on Mobile) */}
-          {/* Changed to grid-cols-2 for mobile (side by side) and flex-col for desktop (stacked) */}
           <div className="grid grid-cols-2 lg:flex lg:flex-col gap-4 lg:gap-6 h-[150px] lg:h-full">
-            {/* Top Banner */}
-            <div
+            {/* Top Banner Link */}
+            <Link
+              to="/categories"
+              state={{ category: "Fans & Accessories" }}
               className={`relative w-full h-full rounded-3xl overflow-hidden group cursor-pointer border ${theme.colors.border}`}
             >
               <img
@@ -217,10 +233,12 @@ const Homepage = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
 
-            {/* Bottom Banner */}
-            <div
+            {/* Bottom Banner Link */}
+            <Link
+              to="/categories"
+              state={{ category: "Liquid Coolers" }}
               className={`relative w-full h-full rounded-3xl overflow-hidden group cursor-pointer border ${theme.colors.border}`}
             >
               <img
@@ -244,12 +262,11 @@ const Homepage = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
 
         {/* --- 2. FEATURES SECTION (4x4 Grid on Mobile -> 2 cols x 2 rows) --- */}
-        {/* Changed grid-cols-1 to grid-cols-2 for mobile */}
         <section className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
           {features.map((feature, idx) => (
             <div
@@ -305,17 +322,20 @@ const Homepage = () => {
                 Trending Categories
               </h2>
             </div>
-            <button
+            <Link
+              to="/categories"
               className={`hidden md:flex items-center gap-2 text-sm font-bold ${theme.colors.accentText} hover:underline`}
             >
               View All <ArrowRight size={16} />
-            </button>
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {trendingCategories.map((item, idx) => (
-              <div
+              <Link
                 key={idx}
+                to={item.link}
+                state={{ category: item.categoryState }}
                 className={`group relative h-[400px] rounded-3xl overflow-hidden cursor-pointer ${theme.utils.shadowSubtle} border ${theme.colors.border}`}
               >
                 <img
@@ -341,40 +361,41 @@ const Homepage = () => {
                     </p>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </section>
 
         {/* --- 4. FEATURED BRANDS --- */}
-        <section
-          className={`py-16 border-y ${theme.colors.border} ${theme.colors.surface} rounded-3xl px-8`}
-        >
-          <div className="text-center mb-12">
-            <h2
-              className={`text-sm font-bold uppercase tracking-[0.25em] ${theme.colors.textMuted}`}
-            >
-              Official Retail Partners
-            </h2>
-          </div>
+        <section className="py-20 bg-slate-50 border-t border-slate-200">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400">
+                Official Retail Partners
+              </h2>
+            </div>
 
-          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24">
-            {brands.map((brand, idx) => (
-              <div
-                key={idx}
-                className="group relative flex items-center justify-center"
-              >
-                <img
-                  src={brand.logo}
-                  alt={brand.name}
-                  className={`
-                    h-1  md:h-12 w-auto object-contain
-                    transition-transform duration-300 
-                    group-hover:scale-110 rounded-xl
-                  `}
-                />
-              </div>
-            ))}
+            <div className="grid grid-cols-3 md:flex md:flex-wrap justify-center items-center gap-8 md:gap-16 lg:gap-24 opacity-80">
+              {brands.map((brand, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center justify-center group"
+                >
+                  <img
+                    src={brand.logo}
+                    alt={brand.name}
+                    className="
+                      h-8 w-auto md:h-10 lg:h-12 
+                      object-contain 
+                      mix-blend-multiply 
+                      transition-all duration-300 ease-out
+                      opacity-70 group-hover:opacity-100 
+                      group-hover:scale-110
+                    "
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </section>
       </main>

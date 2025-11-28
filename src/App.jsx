@@ -33,6 +33,8 @@ import { STORAGE_DEVICES_PRODUCTS } from "./products_data/pc_components/storage_
 import { NETWORKING_9ETOWRSQ_PRODUCTS } from "./products_data/pc_components/networking_9etOWRsq_data.js";
 import { POS_HARDWARE_PRODUCTS } from "./products_data/pc_components/pos_hardware_data.js";
 import { UPS_BATTERIES_PRODUCTS } from "./products_data/pc_components/ups_batteries_data.js";
+import ContactPage from "./components/contact.jsx";
+import ScrollToTop from "./components/ScrollToTop.jsx.jsx";
 
 // --- Mock Data ---
 const ORIGINAL_MOCK = [
@@ -234,10 +236,11 @@ const AppContent = () => {
         mobileMenuOpen={mobileMenuOpen}
         setMobileMenuOpen={setMobileMenuOpen}
       />
-
+      <ScrollToTop />
       <Routes>
         {/* Home */}
         <Route path="/" element={<Homepage />} />
+        <Route path="/contact" element={<ContactPage />} />
 
         {/* /categories → default category + page 1 */}
         <Route
