@@ -186,7 +186,7 @@ const Footer = () => {
           className={`border-t ${theme.colors.border} pt-8 flex flex-col md:flex-row items-center justify-between gap-4`}
         >
           <div className={`text-sm ${theme.colors.textSecondary}`}>
-            © 2025 XclusiveMoonTrading
+            © 2022 XclusiveMoonTrading
           </div>
 
           {/* Payment Icons (Simulated with simple visual blocks) */}

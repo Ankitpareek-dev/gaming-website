@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import ProductCard from "./ProductCard";
 import { theme } from "./theme";
+import { Link } from "react-router-dom"; // Import Link
 
 const MainContent = ({
   selectedSub,
@@ -66,9 +67,11 @@ const MainContent = ({
           <div
             className={`flex items-center gap-2 text-xs ${theme.colors.textMuted} font-medium mb-3`}
           >
-            <span className={`hover:${theme.colors.textMain} cursor-pointer`}>
-              Home
-            </span>{" "}
+            <Link to="/">
+              <span className={`hover:${theme.colors.textMain} cursor-pointer`}>
+                Home
+              </span>
+            </Link>{" "}
             <ChevronRight size={10} />
             <span className={`hover:${theme.colors.textMain} cursor-pointer`}>
               Components
