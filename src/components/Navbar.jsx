@@ -67,18 +67,6 @@ const categories = [
     ],
   },
   {
-    name: "Cooling & Expansion",
-    icon: <Fan size={20} strokeWidth={1.5} />,
-    subs: [
-      "Liquid Coolers",
-      "Network Cards",
-      "Air Coolers",
-      "Fans & Accessories",
-      "Sound Cards",
-      "Optical Drives",
-    ],
-  },
-  {
     name: "Desktop & Laptop",
     icon: <Laptop size={20} strokeWidth={1.5} />,
     subs: ["Desktop", "Laptop", "All in One PC", "Workstation", "Servers"],
@@ -170,12 +158,7 @@ const categories = [
     ],
   },
   {
-    name: "Mobiles & Tablets",
-    icon: <Smartphone size={20} strokeWidth={1.5} />,
-    subs: ["Mobile Phones", "Tablet"],
-  },
-  {
-    name: "Gaming Gear",
+    name: "Gaming",
     icon: <Gamepad2 size={20} strokeWidth={1.5} />,
     subs: [
       "Gaming Chair",

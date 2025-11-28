@@ -167,12 +167,6 @@ const CATEGORIES = [
     ],
   },
   {
-    id: 8,
-    name: "Mobiles & Tablets",
-    icon: <Smartphone size={18} />,
-    subcategories: ["Mobile Phones", "Tablet"],
-  },
-  {
     id: 9,
     name: "Servers & Workstations",
     icon: <Server size={18} />,
@@ -401,7 +395,7 @@ const Categories = ({ selectedSub, handleSubCategorySelect }) => {
           className={`rounded-3xl overflow-hidden relative h-80 group cursor-pointer shadow-xl shadow-black/20`}
         >
           <img
-            src="https://images.unsplash.com/photo-1624705024345-a55269a5f541?q=80&w=1000&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1555618254-84e2cf498b01?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Promo"
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0"
           />
