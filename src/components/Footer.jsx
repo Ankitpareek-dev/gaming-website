@@ -19,8 +19,8 @@ const Footer = () => {
       className={`mt-auto border-t ${theme.colors.border} ${theme.colors.bg} pt-16 pb-8`}
     >
       <div className="container mx-auto px-6 lg:px-8">
-        {/* Top Section: 5 Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-16">
+        {/* Top Section: 4 Columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-16">
           {/* Column 1: Contact Us */}
           <div className="space-y-6">
             <h3 className={`text-lg font-bold ${theme.colors.textMain}`}>
@@ -43,7 +43,7 @@ const Footer = () => {
                   size={18}
                   className={`mt-0.5 shrink-0 ${theme.colors.accentText}`}
                 />
-                <span className="text-sm break-all">info@xclusivemoongeneraltradingllc.com</span>
+                <span className="text-sm">info@xclusivemoongeneraltradingllc.com</span>
               </li>
               <li
                 className={`flex items-start gap-3 ${theme.colors.textSecondary}`}
