@@ -98,8 +98,15 @@ const Footer = () => {
               Our Services
             </h3>
             <ul className="space-y-3 text-sm">
+              <li>
+                <Link
+                  to="/categories/pc-components/pg1"
+                  className={`${theme.colors.textSecondary} hover:${theme.colors.accentText} transition-colors`}
+                >
+                  All Categories
+                </Link>
+              </li>
               {[
-                "All Categories",
                 "Custom Build PC",
                 "New Arrival",
                 "Top Selling",

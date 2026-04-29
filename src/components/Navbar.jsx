@@ -329,14 +329,7 @@ const Navbar = ({ scrolled, mobileMenuOpen, setMobileMenuOpen }) => {
 
               {/* Mobile Toggles */}
               <div className="flex gap-3 lg:hidden">
-                <button
-                  className={`relative p-2.5 ${theme.colors.surface} rounded-full ${theme.colors.textSecondary} hover:bg-zinc-200 transition-colors`}
-                >
-                  <ShoppingCart size={20} />
-                  <span
-                    className={`absolute top-0 right-0 w-2.5 h-2.5 ${theme.colors.accentBg} rounded-full border-2 border-white`}
-                  ></span>
-                </button>
+
                 <button
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                   className={`p-2.5 ${theme.colors.surface} rounded-full ${theme.colors.textSecondary} hover:bg-zinc-200 transition-colors`}
@@ -403,33 +396,7 @@ const Navbar = ({ scrolled, mobileMenuOpen, setMobileMenuOpen }) => {
                   </span>
                 </div>
               </div>
-              <div className="flex items-center gap-3 group cursor-pointer">
-                <div
-                  className={`relative p-2 rounded-full ${theme.colors.surface} group-hover:bg-zinc-100 transition-colors`}
-                >
-                  <ShoppingCart
-                    className={`${theme.colors.textMuted} group-hover:${theme.colors.accentText} transition-colors`}
-                    size={22}
-                  />
-                  <span
-                    className={`absolute -top-1 -right-1 ${theme.colors.accentBg} ${theme.colors.textOnAccent} font-bold text-[10px] w-5 h-5 flex items-center justify-center rounded-full border-2 border-white shadow-sm`}
-                  >
-                    2
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span
-                    className={`text-[10px] font-bold ${theme.colors.textMuted} uppercase tracking-wide`}
-                  >
-                    Your Cart
-                  </span>
-                  <span
-                    className={`text-xs font-bold ${theme.colors.textMain}`}
-                  >
-                    AED 0.00
-                  </span>
-                </div>
-              </div>
+
             </div>
           </div>
 
