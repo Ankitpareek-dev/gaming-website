@@ -179,7 +179,7 @@ const ContactPage = () => {
                   <p className={`text-sm ${theme.colors.textSecondary}`}>
                     043973073{" "}
                     <span className={`text-xs ${theme.colors.textMuted} ml-2`}>
-                      (Support)
+
                     </span>
                   </p>
                 </div>
