@@ -58,17 +58,7 @@ const Footer = () => {
               </li>
             </ul>
             {/* Social Icons */}
-            <div className="flex gap-4 pt-2">
-              {[Facebook, Twitter, Instagram, Youtube].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className={`${theme.colors.textMuted} hover:${theme.colors.accentText} transition-colors duration-200`}
-                >
-                  <Icon size={20} />
-                </a>
-              ))}
-            </div>
+
           </div>
 
           {/* Column 2: My Account */}
