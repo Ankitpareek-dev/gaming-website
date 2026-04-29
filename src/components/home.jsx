@@ -121,15 +121,11 @@ const Homepage = () => {
     },
     {
       name: "Logitech",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/0/0d/Logitech_logo.svg",
-    },
-    {
-      name: "Razer",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/7/76/Razer_logo.svg",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Logitech_logo.svg/1920px-Logitech_logo.svg.png",
     },
     {
       name: "HyperX",
-      logo: "https://1000logos.net/wp-content/uploads/2020/09/HyperX-Logo.png",
+      logo: "https://upload.wikimedia.org/wikipedia/en/thumb/4/4c/HyperX_Logo.svg/1920px-HyperX_Logo.svg.png",
     },
     {
       name: "Nvidia",
@@ -141,11 +137,11 @@ const Homepage = () => {
     },
     {
       name: "Intel",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/c/c9/Intel-logo.svg",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Intel_logo_2023.svg/1920px-Intel_logo_2023.svg.png",
     },
     {
       name: "Gigabyte",
-      logo: "https://www.gigabyte.com/FileUpload/global/WebPage/25/images/logo.png",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Gigabyte_Technology_logo_20080107.svg/1920px-Gigabyte_Technology_logo_20080107.svg.png",
     },
   ];
 
