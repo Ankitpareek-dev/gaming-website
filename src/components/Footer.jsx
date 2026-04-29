@@ -34,7 +34,7 @@ const Footer = () => {
                   size={18}
                   className={`mt-0.5 ${theme.colors.accentText}`}
                 />
-                <span className="text-sm">+91-4953 67457</span>
+                <span className="text-sm"></span>
               </li>
               <li
                 className={`flex items-start gap-3 ${theme.colors.textSecondary}`}
@@ -43,7 +43,7 @@ const Footer = () => {
                   size={18}
                   className={`mt-0.5 ${theme.colors.accentText}`}
                 />
-                <span className="text-sm">random@randomemail.com</span>
+                <span className="text-sm">info@xclusivemoongeneraltradingllc.com</span>
               </li>
               <li
                 className={`flex items-start gap-3 ${theme.colors.textSecondary}`}
@@ -53,7 +53,7 @@ const Footer = () => {
                   className={`mt-0.5 ${theme.colors.accentText}`}
                 />
                 <span className="text-sm leading-relaxed">
-                  XYZ, Random Street, Random City
+                  Office number 306, Al Zahraa Techno Centre, Bin Al Waleed Road, Dubai
                 </span>
               </li>
             </ul>
@@ -72,25 +72,7 @@ const Footer = () => {
           </div>
 
           {/* Column 2: My Account */}
-          <div>
-            <h3 className={`text-lg font-bold ${theme.colors.textMain} mb-6`}>
-              My Account
-            </h3>
-            <ul className="space-y-3 text-sm">
-              {["Dashboard", "My Orders", "My Reviews", "My Profile"].map(
-                (item) => (
-                  <li key={item}>
-                    <a
-                      href="#"
-                      className={`${theme.colors.textSecondary} hover:${theme.colors.accentText} transition-colors`}
-                    >
-                      {item}
-                    </a>
-                  </li>
-                )
-              )}
-            </ul>
-          </div>
+
 
           {/* Column 3: Our Services */}
           <div>
@@ -193,7 +175,7 @@ const Footer = () => {
           className={`border-t ${theme.colors.border} pt-8 flex flex-col md:flex-row items-center justify-between gap-4`}
         >
           <div className={`text-sm ${theme.colors.textSecondary}`}>
-            © 2022 XclusiveMoonTrading
+            2022 XclusiveMoonTrading
           </div>
 
           {/* Payment Icons (Simulated with simple visual blocks) */}
