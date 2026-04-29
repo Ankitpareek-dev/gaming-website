@@ -32,7 +32,7 @@ const Footer = () => {
               >
                 <Phone
                   size={18}
-                  className={`mt-0.5 ${theme.colors.accentText}`}
+                  className={`mt-0.5 shrink-0 ${theme.colors.accentText}`}
                 />
                 <span className="text-sm">043973073</span>
               </li>
@@ -41,16 +41,16 @@ const Footer = () => {
               >
                 <Mail
                   size={18}
-                  className={`mt-0.5 ${theme.colors.accentText}`}
+                  className={`mt-0.5 shrink-0 ${theme.colors.accentText}`}
                 />
-                <span className="text-sm">info@xclusivemoongeneraltradingllc.com</span>
+                <span className="text-sm break-all">info@xclusivemoongeneraltradingllc.com</span>
               </li>
               <li
                 className={`flex items-start gap-3 ${theme.colors.textSecondary}`}
               >
                 <MapPin
                   size={18}
-                  className={`mt-0.5 ${theme.colors.accentText}`}
+                  className={`mt-0.5 shrink-0 ${theme.colors.accentText}`}
                 />
                 <span className="text-sm leading-relaxed">
                   Office number 306, Al Zahraa Techno Centre, Bin Al Waleed Road, Dubai
