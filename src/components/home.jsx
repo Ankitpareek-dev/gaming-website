@@ -117,7 +117,7 @@ const Homepage = () => {
     },
     {
       name: "Corsair",
-      logo: "https://www.corsair.com/cwsmgmt/cms/images/reusable/corsair-logo.png",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Corsair_2020_logo.svg/1920px-Corsair_2020_logo.svg.png",
     },
     {
       name: "Logitech",
