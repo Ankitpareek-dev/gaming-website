@@ -111,15 +111,42 @@ const Homepage = () => {
 
   // --- Real Brand Logos ---
   const brands = [
-    { name: "Asus", logo: "https://logo.clearbit.com/asus.com" },
-    { name: "Corsair", logo: "https://logo.clearbit.com/corsair.com" },
-    { name: "Logitech", logo: "https://logo.clearbit.com/logitech.com" },
-    { name: "Razer", logo: "https://logo.clearbit.com/razer.com" },
-    { name: "HyperX", logo: "https://logo.clearbit.com/hyperx.com" },
-    { name: "Nvidia", logo: "https://logo.clearbit.com/nvidia.com" },
-    { name: "AMD", logo: "https://logo.clearbit.com/amd.com" },
-    { name: "Intel", logo: "https://logo.clearbit.com/intel.com" },
-    { name: "Gigabyte", logo: "https://logo.clearbit.com/gigabyte.com" },
+    {
+      name: "Asus",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/2/2e/ASUS_Logo.svg",
+    },
+    {
+      name: "Corsair",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/8/80/Corsair_Logo.svg",
+    },
+    {
+      name: "Logitech",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/0/0d/Logitech_logo.svg",
+    },
+    {
+      name: "Razer",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/7/76/Razer_logo.svg",
+    },
+    {
+      name: "HyperX",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/6/6c/HyperX_logo.svg",
+    },
+    {
+      name: "Nvidia",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg",
+    },
+    {
+      name: "AMD",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/7/7c/AMD_Logo.svg",
+    },
+    {
+      name: "Intel",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/c/c9/Intel-logo.svg",
+    },
+    {
+      name: "Gigabyte",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/9/91/Gigabyte_Technology_logo_20080107.svg",
+    },
   ];
 
   // --- Navigation Logic ---
@@ -151,10 +178,9 @@ const Homepage = () => {
               <div
                 key={slide.id}
                 className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out
-                  ${
-                    index === currentSlide
-                      ? "opacity-100 z-10"
-                      : "opacity-0 z-0"
+                  ${index === currentSlide
+                    ? "opacity-100 z-10"
+                    : "opacity-0 z-0"
                   }
                 `}
               >
