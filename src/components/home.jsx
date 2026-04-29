@@ -117,7 +117,7 @@ const Homepage = () => {
     },
     {
       name: "Corsair",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/8/80/Corsair_Logo.svg",
+      logo: "https://www.corsair.com/cwsmgmt/cms/images/reusable/corsair-logo.png",
     },
     {
       name: "Logitech",
@@ -129,7 +129,7 @@ const Homepage = () => {
     },
     {
       name: "HyperX",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/6/6c/HyperX_logo.svg",
+      logo: "https://1000logos.net/wp-content/uploads/2020/09/HyperX-Logo.png",
     },
     {
       name: "Nvidia",
@@ -145,7 +145,7 @@ const Homepage = () => {
     },
     {
       name: "Gigabyte",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/9/91/Gigabyte_Technology_logo_20080107.svg",
+      logo: "https://www.gigabyte.com/FileUpload/global/WebPage/25/images/logo.png",
     },
   ];
 
