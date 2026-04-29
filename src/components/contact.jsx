@@ -122,9 +122,9 @@ const ContactPage = () => {
                     Headquarters
                   </h3>
                   <p className={`text-sm ${theme.colors.textSecondary}`}>
-                    123 Gaming Tower, Al Quoz
+                    Office number 306, Al Zahraa Techno Centre,
                     <br />
-                    Dubai, United Arab Emirates
+                    Bin Al Waleed Road, Dubai
                   </p>
                 </div>
               </div>
@@ -148,14 +148,14 @@ const ContactPage = () => {
                     href="mailto:support@xclusivemoon.com"
                     className={`text-sm ${theme.colors.textSecondary} hover:${theme.colors.textMain} underline decoration-zinc-300 underline-offset-4 transition-colors`}
                   >
-                    support@xclusivemoon.com
+                    info@xclusivemoongeneraltradingllc.com
                   </a>
                   <br />
                   <a
                     href="mailto:sales@xclusivemoon.com"
                     className={`text-sm ${theme.colors.textSecondary} hover:${theme.colors.textMain} underline decoration-zinc-300 underline-offset-4 transition-colors`}
                   >
-                    sales@xclusivemoon.com
+
                   </a>
                 </div>
               </div>
@@ -175,14 +175,9 @@ const ContactPage = () => {
                   >
                     Call Us
                   </h3>
+
                   <p className={`text-sm ${theme.colors.textSecondary}`}>
-                    +971 50 123 4567{" "}
-                    <span className={`text-xs ${theme.colors.textMuted} ml-2`}>
-                      (Sales)
-                    </span>
-                  </p>
-                  <p className={`text-sm ${theme.colors.textSecondary}`}>
-                    +971 4 123 4567{" "}
+                    043973073{" "}
                     <span className={`text-xs ${theme.colors.textMuted} ml-2`}>
                       (Support)
                     </span>
