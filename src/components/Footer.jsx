@@ -34,7 +34,7 @@ const Footer = () => {
                   size={18}
                   className={`mt-0.5 ${theme.colors.accentText}`}
                 />
-                <span className="text-sm"></span>
+                <span className="text-sm">043973073</span>
               </li>
               <li
                 className={`flex items-start gap-3 ${theme.colors.textSecondary}`}
