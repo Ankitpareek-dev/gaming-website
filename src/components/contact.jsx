@@ -145,7 +145,7 @@ const ContactPage = () => {
                     Email Us
                   </h3>
                   <a
-                    href="mailto:support@xclusivemoon.com"
+                    href="mailto:info@xclusivemoongeneraltradingllc.com"
                     className={`text-sm ${theme.colors.textSecondary} hover:${theme.colors.textMain} underline decoration-zinc-300 underline-offset-4 transition-colors`}
                   >
                     info@xclusivemoongeneraltradingllc.com
@@ -158,7 +158,7 @@ const ContactPage = () => {
 
                   </a>
                 </div>
-              </div>
+              </div>ß
 
               {/* Phone */}
               <div

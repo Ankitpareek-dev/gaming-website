@@ -43,7 +43,12 @@ const Footer = () => {
                   size={18}
                   className={`mt-0.5 shrink-0 ${theme.colors.accentText}`}
                 />
-                <span className="text-sm">info@xclusivemoongeneraltradingllc.com</span>
+                <a
+                  href="mailto:info@xclusivemoongeneraltradingllc.com"
+                  className={`text-sm ${theme.colors.textSecondary} hover:${theme.colors.textMain} underline decoration-zinc-300 underline-offset-4 transition-colors`}
+                >
+                  info@xclusivemoongeneraltradingllc.com
+                </a>
               </li>
               <li
                 className={`flex items-start gap-3 ${theme.colors.textSecondary}`}
