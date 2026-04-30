@@ -158,7 +158,7 @@ const ContactPage = () => {
 
                   </a>
                 </div>
-              </div>ß
+              </div>
 
               {/* Phone */}
               <div
@@ -177,7 +177,9 @@ const ContactPage = () => {
                   </h3>
 
                   <p className={`text-sm ${theme.colors.textSecondary}`}>
-                    043973073{" "}
+                    <a href="tel:+97143973073" className="hover:underline">
+                      043973073
+                    </a>
                     <span className={`text-xs ${theme.colors.textMuted} ml-2`}>
 
                     </span>
